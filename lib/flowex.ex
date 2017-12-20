@@ -1,18 +1,15 @@
 defmodule Flowex do
   @moduledoc """
-  Documentation for Flowex.
+  Módulo que realiza las peticiones a Dialogflow.
   """
 
-  @doc """
-  Hello world.
+  def request(method, path, body) do
+    host = Application.get_env(:resuelve_bot, :host)
+    protocol_version = Application.get_env(:resuelve_bot, :protocol_version)
 
-  ## Examples
+    url = "#{host}#{path}?v=#{protocol_version}"
 
-      iex> Flowex.hello
-      :world
-
-  """
-  def hello do
-    :world
+    IO.inspect HTTPoison.request(method, url, body \\ "", headers \\ [], options \\ [])
   end
+
 end

@@ -1,11 +1,8 @@
 # Flowex
 
-**TODO: Add description**
+**No oficial elixir sdk para Dialogflow**
 
-## Installation
-
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `flowex` to your list of dependencies in `mix.exs`:
+## Instalación
 
 ```elixir
 def deps do
@@ -15,8 +12,3 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/flowex](https://hexdocs.pm/flowex).
-
-# flowex
