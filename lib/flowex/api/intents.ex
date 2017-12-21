@@ -6,7 +6,16 @@ defmodule Flowex.Api.Intents do
   alias Flowex
 
   def list do
-    Flowex.request(:get, "intents", nil)
+    Flowex.request(:get, "intents", "")
+  end
+
+  def get(id) do
+    Flowex.request(:get, "intents/#{id}", "")
+  end
+
+  def create(body) do
+    body = Poison.encode!(body)
+    Flowex.request(:post, "intents", body)
     |> IO.inspect
   end
 

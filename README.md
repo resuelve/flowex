@@ -1,6 +1,6 @@
 # Flowex
 
-**No oficial elixir sdk para Dialogflow**
+**No oficial Elixir sdk para Dialogflow**
 
 ## Instalación
 
