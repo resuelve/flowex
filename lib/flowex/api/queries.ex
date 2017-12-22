@@ -5,6 +5,10 @@ defmodule Flowex.Api.Queries do
 
   alias Flowex
 
+  @doc """
+  Realiza una query para procesarlo con un intent.
+  """
+  @spec query(list, String.t, String.t, String.t, String.t) :: tuple
   def query(contexts, lang, text, sessionId, timezone) do
     body =
       %{

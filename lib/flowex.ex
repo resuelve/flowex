@@ -10,20 +10,14 @@ defmodule Flowex do
     url = "#{host}#{path}?v=#{protocol_version}"
 
     case HTTPoison.request(method, url, body, headers(), []) do
-      {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+      {:ok, %HTTPoison.Response{status_code: status, body: body}} when status in 200..299 ->
         {:ok, Poison.decode!(body)}
-      {:ok, %HTTPoison.Response{status_code: 400, body: body}} ->
+      {:ok, %HTTPoison.Response{status_code: status, body: body}} when status in 400..499 ->
         {:error, Poison.decode!(body)}
-      {:ok, %HTTPoison.Response{status_code: 401, body: body}} ->
-        {:error, Poison.decode!(body)}
-      {:ok, %HTTPoison.Response{status_code: 404}} ->
-        {:error, :not_found}
-      {:ok, %HTTPoison.Response{status_code: 409, body: body}} ->
+      {:ok, %HTTPoison.Response{status_code: status, body: body}} when status >= 500 ->
         {:error, Poison.decode!(body)}
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, Poison.decode!(reason)}
-      response ->
-        {:error, response}
     end
   end
 
