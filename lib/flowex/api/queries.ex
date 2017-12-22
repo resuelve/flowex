@@ -5,8 +5,18 @@ defmodule Flowex.Api.Queries do
 
   alias Flowex
 
-  def list do
-    Flowex.request(:get, "query", "")
+  def query(contexts, lang, text, sessionId, timezone) do
+    body =
+      %{
+        contexts: contexts,
+        lang: lang,
+        query: text,
+        sessionId: sessionId,
+        timezone: timezone
+      }
+      |> Poison.encode!
+
+    Flowex.request(:post, "query", body)
   end
 
 end

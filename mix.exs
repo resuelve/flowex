@@ -7,7 +7,8 @@ defmodule Flowex.Mixfile do
       version:            "0.1.0",
       elixir:             "~> 1.5",
       start_permanent:    Mix.env == :prod,
-      deps:               deps()
+      deps:               deps(),
+      test_coverage:      [tool: ExCoveralls],
     ]
   end
 
@@ -22,8 +23,11 @@ defmodule Flowex.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:httpoison,    "~> 0.13"},
-      {:poison,       "~> 3.1"},
+      {:credo,          "~> 0.8", only: [:dev, :test]},
+      {:httpoison,      "~> 0.13"},
+      {:mock,           "~> 0.3.0", only: :test},
+      {:poison,         "~> 3.1"},
+      {:excoveralls,    "~> 0.7", only: :test},
     ]
   end
 end

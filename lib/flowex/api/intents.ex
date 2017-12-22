@@ -16,7 +16,6 @@ defmodule Flowex.Api.Intents do
   def create(body) do
     body = Poison.encode!(body)
     Flowex.request(:post, "intents", body)
-    |> IO.inspect
   end
 
 end
