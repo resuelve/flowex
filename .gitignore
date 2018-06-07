@@ -20,4 +20,4 @@ erl_crash.dump
 *.ez
 
 *.env
-google_credentials.json
+*_credentials.json
