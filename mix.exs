@@ -28,6 +28,7 @@ defmodule Flowex.Mixfile do
       {:mock,           "~> 0.3.0", only: :test},
       {:poison,         "~> 3.1"},
       {:excoveralls,    "~> 0.7", only: :test},
+      {:goth,           "~> 0.8.0"}
     ]
   end
 end

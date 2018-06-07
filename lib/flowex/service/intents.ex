@@ -1,6 +1,6 @@
-defmodule Flowex.Api.Intents do
+defmodule Flowex.Service.Intents do
   @moduledoc """
-  Proporciona metodos para manejar intents.
+  Helper para intents.
   """
 
   alias Flowex
@@ -20,14 +20,4 @@ defmodule Flowex.Api.Intents do
   def get(id) do
     Flowex.request(:get, "intents/#{id}", "")
   end
-
-  @doc """
-  Crea un intent.
-  """
-  @spec create(map) :: tuple
-  def create(body) do
-    body = Poison.encode!(body)
-    Flowex.request(:post, "intents", body)
-  end
-
 end

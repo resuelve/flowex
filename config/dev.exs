@@ -1,5 +1,7 @@
 use Mix.Config
 
 config :flowex, host: System.get_env("DIALOGFLOW_URL")
-config :flowex, developer_access_token: System.get_env("DEVELOPER_ACCESS_TOKEN")
-config :flowex, protocol_version: System.get_env("PROTOCOL_VERSION")
+config :flowex, project_id: System.get_env("DIALOGFLOW_PROJECT_ID")
+
+config :goth,
+  json: System.get_env("DIALOGFLOW_CREDENTIALS") |> File.read!
