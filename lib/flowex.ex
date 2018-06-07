@@ -28,7 +28,10 @@ defmodule Flowex do
   # ---------------------------------------------------------------------------
   @spec headers() :: list
   defp headers() do
-    {:ok, token} = Token.for_scope("https://www.googleapis.com/auth/cloud-platform")
+    {:ok, token} = Token.for_scope({
+        Application.get_env(:flowex, :client_email),
+        "https://www.googleapis.com/auth/cloud-platform"
+      })
 
     [
       {"Authorization", "Bearer #{token.token}"},
