@@ -24,12 +24,12 @@ defmodule Flowex.Mixfile do
   defp deps do
     [
       {:credo,          "~> 0.8", only: [:dev, :test]},
+      {:elixir_uuid,    "~> 1.2" },
+      {:excoveralls,    "~> 0.7", only: :test},
+      {:goth,           "~> 0.9.0"},
       {:httpoison,      "~> 0.13"},
       {:mock,           "~> 0.3.0", only: :test},
       {:poison,         "~> 3.1"},
-      {:excoveralls,    "~> 0.7", only: :test},
-      {:goth,           "~> 0.9.0"},
-      {:elixir_uuid,    "~> 1.2" }
     ]
   end
 end

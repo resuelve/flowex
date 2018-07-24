@@ -7,6 +7,7 @@ defmodule Flowex.Service.AgentTest do
   alias Goth.Token
 
   @agent %{
+    "avatarUri" => "https://storage.googleapis.com/l_bot.png",
     "classificationThreshold" => 0.3,
     "defaultLanguageCode" => "es",
     "description" => "Agente de pruebas",
