@@ -9,7 +9,7 @@ Primero, agrega Flowex a su tus dependencias en mix.exs:
 ```elixir
 def deps do
   [
-    {:flowex, "~> 0.1.0"}
+    {:flowex, "~> 1.0.0"}
   ]
 end
 ```

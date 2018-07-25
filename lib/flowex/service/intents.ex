@@ -42,7 +42,7 @@ defmodule Flowex.Service.Intents do
       |> Enum.concat(intent["trainingPhrases"])
       |> (&Map.put(intent, "trainingPhrases", &1)).()
       |> Poison.encode!
-    IO.inspect(intent)
+
     Flowex.request(:patch, url, intent)
   end
 end
