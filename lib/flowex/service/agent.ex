@@ -6,7 +6,7 @@ defmodule Flowex.Service.Agent do
   alias Flowex
 
   @doc """
-  Recupera el agente que está asociado al project_id.
+  Obtiene el agente al que está asociado el project_id.
   """
   @spec get() :: tuple
   def get do

@@ -6,17 +6,17 @@ defmodule Flowex.Service.Sessions do
   alias Flowex
 
   @doc """
-  Procesa una consulta en lenguaje natural y devuelve datos
-  estructurados y procesables como resultado.
+  Procesa una consulta en lenguaje natural para detectar un intent con la respuesta
+  apropiada.
   """
-  @spec detect_intent(String.t, String.t) :: tuple
-  def detect_intent(text, session_id) do
+  @spec detect_intent(String.t, String.t, String.t) :: tuple
+  def detect_intent(text, session_id, language \\ "es") do
     body =
       %{
         queryInput: %{
           text: %{
             text: text,
-            languageCode: "es"
+            languageCode: language
           }
         }
       }
@@ -24,5 +24,4 @@ defmodule Flowex.Service.Sessions do
 
     Flowex.request(:post, "sessions/#{session_id}:detectIntent", body)
   end
-
 end
