@@ -14,8 +14,7 @@ defmodule Flowex.Service.IntentsTest do
        "name" => "projects/lbot-170189/agent/intents/4cff39af-ba13-4a62-ba6f-8a79f4f5b324",
        "priority" => 500000
      }
-   ],
-   "nextPageToken" => "0xFAKETOKEN_Q="
+   ]
  }
 
   @intent %{
@@ -41,7 +40,7 @@ defmodule Flowex.Service.IntentsTest do
         end]
       }
     ]) do
-      assert Intents.list == {:ok, @intents}
+      assert Intents.list == {:ok, @intents["intents"]}
     end
   end
 
