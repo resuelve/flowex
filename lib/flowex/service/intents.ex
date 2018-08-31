@@ -65,4 +65,14 @@ defmodule Flowex.Service.Intents do
 
     Flowex.request(:patch, url, intent)
   end
+
+  @doc """
+  Actualiza un intent view full.
+  """
+  @spec update(String.t, map, String.t) :: tuple
+  def update(id, intent, language \\ "es") do
+    url = "intents/#{id}?languageCode=#{language}&intentView=INTENT_VIEW_FULL"
+
+    Flowex.request(:patch, url, Poison.encode!(intent))
+  end
 end
