@@ -107,8 +107,8 @@ defmodule Flowex.Service.IntentsTest do
         end]
       }
     ]) do
-      assert Intents.get("5eec5344-8a09-40ba-8f46-1d2ed3f7b0df") == {:ok, @intent}
+      assert Intents.update("5eec5344-8a09-40ba-8f46-1d2ed3f7b0df",
+                                  @intent_view_full) == {:ok, @intent_view_full}
     end
   end
-
 end
