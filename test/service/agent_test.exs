@@ -34,7 +34,7 @@ defmodule Flowex.Service.AgentTest do
         end]
       }
     ]) do
-      assert Agent.get == {:ok, @agent}
+      assert Agent.get("lbot-170198") == {:ok, @agent}
     end
   end
 end
