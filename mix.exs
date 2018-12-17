@@ -25,7 +25,7 @@ defmodule Flowex.Mixfile do
     [
       {:credo,          "~> 0.8", only: [:dev, :test]},
       {:elixir_uuid,    "~> 1.2" },
-      {:excoveralls,    "~> 0.7", only: :test},
+      {:excoveralls,    "~> 0.10", only: :test},
       {:goth,           "~> 0.9.0"},
       {:httpoison,      "~> 0.13"},
       {:mock,           "~> 0.3.0", only: :test},

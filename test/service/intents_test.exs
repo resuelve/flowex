@@ -67,7 +67,7 @@ defmodule Flowex.Service.IntentsTest do
         end]
       }
     ]) do
-      assert Intents.list == {:ok, @intents["intents"]}
+      assert Intents.list("lbot-170198") == {:ok, @intents["intents"]}
     end
   end
 
@@ -87,7 +87,7 @@ defmodule Flowex.Service.IntentsTest do
         end]
       }
     ]) do
-      assert Intents.get("5eec5344-8a09-40ba-8f46-1d2ed3f7b0df") == {:ok, @intent}
+      assert Intents.get("lbot-170198", "5eec5344-8a09-40ba-8f46-1d2ed3f7b0df") == {:ok, @intent}
     end
   end
 
@@ -107,7 +107,7 @@ defmodule Flowex.Service.IntentsTest do
         end]
       }
     ]) do
-      assert Intents.update("5eec5344-8a09-40ba-8f46-1d2ed3f7b0df",
+      assert Intents.update("lbot-170198", "5eec5344-8a09-40ba-8f46-1d2ed3f7b0df",
                                   @intent_view_full) == {:ok, @intent_view_full}
     end
   end

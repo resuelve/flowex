@@ -1,15 +1,15 @@
 defmodule Flowex.Service.Agent do
   @moduledoc """
-  Helper para agent.
+  Helper para información del agente.
   """
 
   alias Flowex
 
   @doc """
-  Obtiene el agente al que está asociado el project_id.
+  Obtiene el agente al que está asociado el projecto.
   """
-  @spec get() :: tuple
-  def get do
-    Flowex.request(:get, "", "")
+  @spec get(Strint.t) :: tuple
+  def get(project) do
+    Flowex.request(project, :get, "", "")
   end
 end

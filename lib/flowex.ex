@@ -5,13 +5,14 @@ defmodule Flowex do
 
   alias Goth.Token
 
-  def request(method, path, body) do
+  @spec request(String.t(), atom, String.t(), String.t()) :: tuple
+  def request(project, method, path, body) do
+    %{"id" => id, "email" => email} = project_info(project)
+
     host = Application.get_env(:flowex, :host)
-    project_id = Application.get_env(:flowex, :project_id)
+    url = "#{host}/v2/projects/#{id}/agent/#{path}"
 
-    url = "#{host}/v2/projects/#{project_id}/agent/#{path}"
-
-    case HTTPoison.request(method, url, body, headers()) do
+    case HTTPoison.request(method, url, body, headers(email)) do
       {:ok, %HTTPoison.Response{status_code: status, body: body}} when status in 200..299 ->
         {:ok, Poison.decode!(body)}
       {:ok, %HTTPoison.Response{status_code: status, body: body}} when status in 400..499 ->
@@ -24,14 +25,22 @@ defmodule Flowex do
   end
 
   # ---------------------------------------------------------------------------
+  # Obtiene el id y email de un proyecto de dialogflow.
+  # ---------------------------------------------------------------------------
+  @spec project_info(String.t) :: map
+  defp project_info(project_id) do
+    :flowex
+    |> Application.get_env(:projects_info)
+    |> Poison.decode!()
+    |> Enum.find(fn project -> project["id"] == project_id end)
+  end
+
+  # ---------------------------------------------------------------------------
   # Headers de la petición.
   # ---------------------------------------------------------------------------
-  @spec headers() :: list
-  defp headers() do
-    {:ok, token} = Token.for_scope({
-        Application.get_env(:flowex, :client_email),
-        "https://www.googleapis.com/auth/cloud-platform"
-      })
+  @spec headers(String.t()) :: list
+  defp headers(email) do
+    {:ok, token} = Token.for_scope({email, "https://www.googleapis.com/auth/cloud-platform"})
 
     [
       {"Authorization", "Bearer #{token.token}"},

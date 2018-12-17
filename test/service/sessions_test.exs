@@ -41,7 +41,7 @@ defmodule Flowex.Service.SessionsTest do
         end]
       }
     ]) do
-      assert Sessions.detect_intent("Hola", "1e8118272e2f69ea6ec98acbb71ab959") == {:ok, @query}
+      assert Sessions.detect_intent("lbot-170198", "Hola", "1e8118272e2f69ea6ec98acbb71ab959") == {:ok, @query}
     end
   end
 

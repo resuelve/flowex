@@ -54,7 +54,7 @@ mix deps.get
 Obtiene el agente al que está asociado el project_id. [(📘)](https://dialogflow.com/docs/reference/api-v2/rest/v2/projects/getAgent)
 
 ```elixir
-get()
+get(project)
 ```
 
 ### Flowex.Service.Intents
@@ -62,19 +62,19 @@ get()
 Lista los de intents de un agente. [(📘)](https://dialogflow.com/docs/reference/api-v2/rest/v2/projects.agent.intents/list)
 
 ```elixir
-list(language \\ "es", view \\ "INTENT_VIEW_UNSPECIFIED", pageSize \\ 100, token \\ nil)
+list(project, language \\ "es", view \\ "INTENT_VIEW_UNSPECIFIED", pageSize \\ 100, token \\ nil)
 ```
 
 Obtiene un intent buscando por id. [(📘)](https://dialogflow.com/docs/reference/api-v2/rest/v2/projects.agent.intents/get)
 
 ```elixir
-get(id, languageCode \\ "es", intentView \\ "INTENT_VIEW_UNSPECIFIED")
+get(project, id, languageCode \\ "es", intentView \\ "INTENT_VIEW_UNSPECIFIED")
 ```
 
 Añade un frase de entrenamiento a un intent. [(📘)](https://dialogflow.com/docs/reference/api-v2/rest/v2/projects.agent.intents/patch)
 
 ```elixir
-add_training_phrase(id, language \\ "es", text)
+add_training_phrase(project, id, language \\ "es", text)
 ```
 
 ### Flowex.Service.Sessions
@@ -82,5 +82,5 @@ add_training_phrase(id, language \\ "es", text)
 Procesa una consulta en lenguaje natural para detectar un intent con la respuesta apropiada [(📘)](https://dialogflow.com/docs/reference/api-v2/rest/v2/projects.agent.sessions/detectIntent)
 
 ```elixir
-get()
+detect_intent(project, text, session_id, languageCode \\ "es",)
 ```
