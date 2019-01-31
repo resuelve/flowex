@@ -1,10 +1,10 @@
 # Flowex
 
-Cliente de Elixir para el Dialogflow API v2.
+Cliente de Elixir para Dialogflow API v2.
 
 ## Instalación
 
-Primero, agrega Flowex a su tus dependencias en mix.exs:
+Añade Flowex a tus dependencias:
 
 ```elixir
 def deps do
@@ -16,7 +16,7 @@ end
 
 ### Configurar variables de entorno.
 
-El archivo __.env.dist__ contiene un listado actualizado de las variables de entorno necesarias para el proyecto, se debe copiar ese archivo a uno nuevo llamado __.env__
+El archivo __.env.dist__ contiene un listado actualizado de las variables de entorno necesarias para el proyecto, se debe crear una copia llamada __.env__
 
 Tambien necesitaras crear un archivo llamando google_credentials.json dentro de la carpeta secrets.
 
@@ -69,6 +69,12 @@ Obtiene un intent buscando por id. [(📘)](https://dialogflow.com/docs/referenc
 
 ```elixir
 get(project, id, languageCode \\ "es", intentView \\ "INTENT_VIEW_UNSPECIFIED")
+```
+
+Crea un intent. [(📘)](https://dialogflow.com/docs/reference/api-v2/rest/v2/projects.agent.intents/create)
+
+```elixir
+create(project, body, languageCode \\ "es")
 ```
 
 Añade un frase de entrenamiento a un intent. [(📘)](https://dialogflow.com/docs/reference/api-v2/rest/v2/projects.agent.intents/patch)

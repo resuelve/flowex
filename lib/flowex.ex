@@ -5,14 +5,13 @@ defmodule Flowex do
 
   alias Goth.Token
 
-  @spec request(String.t(), atom, String.t(), String.t()) :: tuple
+  @spec request(String.t(), atom, String.t(), String.t() | map) :: tuple
   def request(project, method, path, body) do
-    %{"id" => id, "email" => email} = project_info(project)
+    %{"id" => id, "email" => email} = _project_info(project)
 
-    host = Application.get_env(:flowex, :host)
-    url = "#{host}/v2/projects/#{id}/agent/#{path}"
+    url = "#{_host()}/v2/projects/#{id}/agent/#{path}"
 
-    case HTTPoison.request(method, url, body, headers(email)) do
+    case HTTPoison.request(method, url, _body(body), _headers(email)) do
       {:ok, %HTTPoison.Response{status_code: status, body: body}} when status in 200..299 ->
         {:ok, Poison.decode!(body)}
       {:ok, %HTTPoison.Response{status_code: status, body: body}} when status in 400..499 ->
@@ -25,26 +24,39 @@ defmodule Flowex do
   end
 
   # ---------------------------------------------------------------------------
-  # Obtiene el id y email de un proyecto de dialogflow.
+  # Encode body
   # ---------------------------------------------------------------------------
-  @spec project_info(String.t) :: map
-  defp project_info(project_id) do
-    :flowex
-    |> Application.get_env(:projects_info)
-    |> Poison.decode!()
-    |> Enum.find(fn project -> project["id"] == project_id end)
-  end
+  @spec _body(String.t() | map) :: String.t
+  defp _body(""), do: ""
+  defp _body(body), do: Poison.encode!(body)
+
+  # ---------------------------------------------------------------------------
+  # Obtine el host de Dialogflow API
+  # ---------------------------------------------------------------------------
+  @spec _host :: String.t
+  defp _host(), do: Application.get_env(:flowex, :host)
 
   # ---------------------------------------------------------------------------
   # Headers de la petición.
   # ---------------------------------------------------------------------------
-  @spec headers(String.t()) :: list
-  defp headers(email) do
+  @spec _headers(String.t()) :: list
+  defp _headers(email) do
     {:ok, token} = Token.for_scope({email, "https://www.googleapis.com/auth/cloud-platform"})
 
     [
       {"Authorization", "Bearer #{token.token}"},
       {"Content-Type", "application/json"}
     ]
+  end
+
+  # ---------------------------------------------------------------------------
+  # Obtiene el id y email de un proyecto de dialogflow.
+  # ---------------------------------------------------------------------------
+  @spec _project_info(String.t) :: map
+  defp _project_info(project_id) do
+    :flowex
+    |> Application.get_env(:projects_info)
+    |> Poison.decode!()
+    |> Enum.find(fn project -> project["id"] == project_id end)
   end
 end
