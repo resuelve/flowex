@@ -15,7 +15,7 @@ defmodule Flowex.Service.IntentsTest do
        "priority" => 500000
      }
    ]
- }
+  }
 
   @intent %{
     "displayName" => "Acción (Despedida)",
@@ -49,6 +49,18 @@ defmodule Flowex.Service.IntentsTest do
         "type" => "EXAMPLE"
       }
     ]
+  }
+
+  @create_attrs %{
+    displayName: "test"
+  }
+
+  @invalid_intent %{
+   "error" => %{
+     "code" => 400,
+     "message" => "Intent with the display_name 'test' already exists.",
+     "status" => "FAILED_PRECONDITION"
+   }
   }
 
   test "list list all intents" do
@@ -91,6 +103,55 @@ defmodule Flowex.Service.IntentsTest do
     end
   end
 
+  test "create/3 create valid intent" do
+    with_mocks([
+      {
+        Token,
+        [:passthrough],
+        [for_scope: fn(_url) -> {:ok, %{token: "0xFAKETOKEN_Q="}} end]
+      },
+      {
+        HTTPoison,
+        [:passthrough],
+        [request: fn(_method, _url, _params, _headers) ->
+          body =
+            @create_attrs
+            |> Map.put(:name, "projects/lbot-170198/agent/intents/05f93e97-194d-469b-8721-70b5b6df9c82")
+            |> Map.put(:priority, 500000)
+            |> Poison.encode!()
+
+          {:ok, %HTTPoison.Response{status_code: 200, body: body}}
+        end]
+      }
+    ]) do
+      assert {:ok, intent} = Intents.create("lbot-170198", %{displayName: "test"})
+
+      assert intent["displayName"] == @create_attrs.displayName
+    end
+  end
+
+  test "create/3 create invalid intent" do
+    with_mocks([
+      {
+        Token,
+        [:passthrough],
+        [for_scope: fn(_url) -> {:ok, %{token: "0xFAKETOKEN_Q="}} end]
+      },
+      {
+        HTTPoison,
+        [:passthrough],
+        [request: fn(_method, _url, _params, _headers) ->
+          body = Poison.encode!(@invalid_intent)
+          {:ok, %HTTPoison.Response{status_code: 400, body: body}}
+        end]
+      }
+    ]) do
+      assert {:error, errors} = Intents.create("lbot-170198", %{displayName: "test"})
+
+      assert errors["error"]["message"] == @invalid_intent["error"]["message"]
+    end
+  end
+
   test "update/3 update an intent view full" do
     with_mocks([
       {
@@ -111,4 +172,6 @@ defmodule Flowex.Service.IntentsTest do
                                   @intent_view_full) == {:ok, @intent_view_full}
     end
   end
+
+
 end

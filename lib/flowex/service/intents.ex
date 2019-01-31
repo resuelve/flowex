@@ -43,6 +43,16 @@ defmodule Flowex.Service.Intents do
   end
 
   @doc """
+  Crea un intent.
+  """
+  @spec create(String.t, map, String.t) :: tuple
+  def create(project, body, language \\ "es") do
+    url = "intents?languageCode=#{language}"
+
+    Flowex.request(project, :post, url, body)
+  end
+
+  @doc """
   Añade un frase de entrenamiento a un intent.
   """
   @spec add_training_phrase(String.t, String.t, String.t, String.t) :: tuple
