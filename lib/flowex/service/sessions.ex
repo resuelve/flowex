@@ -11,16 +11,14 @@ defmodule Flowex.Service.Sessions do
   """
   @spec detect_intent(String.t, String.t, String.t, String.t) :: tuple
   def detect_intent(project, text, session_id, language \\ "es") do
-    body =
-      %{
-        queryInput: %{
-          text: %{
-            text: text,
-            languageCode: language
-          }
+    body = %{
+      queryInput: %{
+        text: %{
+          text: text,
+          languageCode: language
         }
       }
-      |> Poison.encode!
+    }
 
     Flowex.request(project, :post, "sessions/#{session_id}:detectIntent", body)
   end

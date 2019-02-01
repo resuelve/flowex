@@ -59,19 +59,13 @@ defmodule Flowex.Service.Intents do
   def add_training_phrase(project, id, text, language \\ "es") do
     url = "intents/#{id}?languageCode=#{language}&intentView=INTENT_VIEW_FULL"
 
-    {:ok, intent} = get(project, id, language, "INTENT_VIEW_FULL")
-
-    intent =
-      [%{
-        "name" => UUID.uuid4(),
-        "parts" => [%{"text" => text}],
-        "type" => "EXAMPLE"
-      }]
-      |> Enum.concat(intent["trainingPhrases"])
+    with {:ok, intent} <- get(project, id, language, "INTENT_VIEW_FULL") do
+      intent
+      |> Map.get("trainingPhrases")
+      |> _set_training_phrase(text)
       |> (&Map.put(intent, "trainingPhrases", &1)).()
-      |> Poison.encode!
-
-    Flowex.request(project, :patch, url, intent)
+      |> (&Flowex.request(project, :patch, url, &1)).()
+    end
   end
 
   @doc """
@@ -81,6 +75,27 @@ defmodule Flowex.Service.Intents do
   def update(project, id, intent, language \\ "es") do
     url = "intents/#{id}?languageCode=#{language}&intentView=INTENT_VIEW_FULL"
 
-    Flowex.request(project, :patch, url, Poison.encode!(intent))
+    Flowex.request(project, :patch, url, intent)
+  end
+
+  # ---------------------------------------------------------------------------
+  # Define una frase de entrenamiento.
+  # ---------------------------------------------------------------------------
+  @spec _set_training_phrase(nil | list, String.t) :: list
+  defp _set_training_phrase(nil, text) do
+    [%{
+      "name" => UUID.uuid4(),
+      "parts" => [%{"text" => text}],
+      "type" => "EXAMPLE"
+    }]
+  end
+  defp _set_training_phrase(training_phrases, text) do
+    [
+      %{
+        "name" => UUID.uuid4(),
+        "parts" => [%{"text" => text}],
+        "type" => "EXAMPLE"
+      } || training_phrases
+    ]
   end
 end
