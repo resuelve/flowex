@@ -22,3 +22,6 @@ erl_crash.dump
 *.env
 *_credentials.json
 *_info.json
+
+.idea/**
+*.iml

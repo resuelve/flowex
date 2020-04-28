@@ -22,4 +22,22 @@ defmodule Flowex.Service.Sessions do
 
     Flowex.request(project, :post, "sessions/#{session_id}:detectIntent", body)
   end
+
+  @doc """
+  Genera un event para hacer match con un intent ya definido
+  """
+  @spec trigger_event(String.t, String.t, String.t, String.t, map) :: tuple
+  def trigger_event(project, name, session_id, language \\ "es", parameters \\ %{}) do
+    body = %{
+      queryInput: %{
+        event: %{
+          name: name,
+          parameters: parameters,
+          languageCode: language
+        }
+      }
+    }
+
+    Flowex.request(project, :post, "sessions/#{session_id}:detectIntent", body)
+  end
 end
