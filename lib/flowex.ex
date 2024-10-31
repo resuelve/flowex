@@ -14,10 +14,13 @@ defmodule Flowex do
     case HTTPoison.request(method, url, _body(body), _headers(email)) do
       {:ok, %HTTPoison.Response{status_code: status, body: body}} when status in 200..299 ->
         {:ok, Poison.decode!(body)}
+
       {:ok, %HTTPoison.Response{status_code: status, body: body}} when status in 400..499 ->
         {:error, Poison.decode!(body)}
+
       {:ok, %HTTPoison.Response{status_code: status, body: body}} when status >= 500 ->
         {:error, Poison.decode!(body)}
+
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, Poison.decode!(reason)}
     end
@@ -26,14 +29,14 @@ defmodule Flowex do
   # ---------------------------------------------------------------------------
   # Encode body
   # ---------------------------------------------------------------------------
-  @spec _body(String.t() | map) :: String.t
+  @spec _body(String.t() | map) :: String.t()
   defp _body(""), do: ""
   defp _body(body), do: Poison.encode!(body)
 
   # ---------------------------------------------------------------------------
   # Obtine el host de Dialogflow API
   # ---------------------------------------------------------------------------
-  @spec _host :: String.t
+  @spec _host :: String.t()
   defp _host(), do: Application.get_env(:flowex, :host)
 
   # ---------------------------------------------------------------------------
@@ -52,7 +55,7 @@ defmodule Flowex do
   # ---------------------------------------------------------------------------
   # Obtiene el id y email de un proyecto de dialogflow.
   # ---------------------------------------------------------------------------
-  @spec _project_info(String.t) :: map
+  @spec _project_info(String.t()) :: map
   defp _project_info(project_id) do
     :flowex
     |> Application.get_env(:projects_info)
