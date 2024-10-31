@@ -8,7 +8,7 @@ defmodule Flowex.Service.Agent do
   @doc """
   Obtiene el agente al que está asociado el projecto.
   """
-  @spec get(Strint.t) :: tuple
+  @spec get(Strint.t()) :: tuple
   def get(project) do
     Flowex.request(project, :get, "", "")
   end

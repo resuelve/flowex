@@ -3,12 +3,26 @@ defmodule Flowex.Mixfile do
 
   def project do
     [
-      app:                :flowex,
-      version:            "1.0.0",
-      elixir:             "~> 1.5",
-      start_permanent:    Mix.env == :prod,
-      deps:               deps(),
-      test_coverage:      [tool: ExCoveralls],
+      app: :flowex,
+      version: "2.0.0",
+      elixir: "~> 1.14",
+      package: package(),
+      start_permanent: Mix.env() == :prod,
+      deps: deps(),
+      aliases: aliases(),
+      test_coverage: [tool: ExCoveralls],
+      source_url: "https://github.com/resuelve/flowex",
+      docs: [
+        main: "Flowex"
+      ]
+    ]
+  end
+
+  defp package do
+    [
+      organization: "resuelve",
+      licenses: [],
+      links: %{"GitHub" => "https://github.com/resuelve/flowex"}
     ]
   end
 
@@ -23,13 +37,20 @@ defmodule Flowex.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:credo,          "~> 0.8", only: [:dev, :test]},
-      {:elixir_uuid,    "~> 1.2" },
-      {:excoveralls,    "~> 0.10", only: :test},
-      {:goth,           "~> 0.9.0"},
-      {:httpoison,      "~> 1.4"},
-      {:mock,           "~> 0.3.0", only: :test},
-      {:poison,         "~> 3.1"},
+      {:credo, "~> 1.6.7", only: [:dev, :test]},
+      {:elixir_uuid, "~> 1.2"},
+      {:excoveralls, "~> 0.12", only: :test},
+      {:goth, "~> 1.2.0"},
+      {:httpoison, "~> 1.8"},
+      {:mock, "~> 0.3.0", only: :test},
+      {:poison, "~> 3.1"},
+      {:ex_doc, "~> 0.27", only: :dev, runtime: false}
+    ]
+  end
+
+  defp aliases do
+    [
+      ci: ["format --check-formatted"]
     ]
   end
 end

@@ -1,0 +1,28 @@
+---
+    name: CI
+    
+    on:
+        pull_request:
+            branches: master
+
+    env:
+        PROJECTS_INFO: W3t9XQ==
+        GOOGLE_CREDENTIALS: W3t9XQ==
+
+    jobs:
+        build-and-test:
+            name: Build and test
+            runs-on: ubuntu-latest
+            container: elixir:1.14-alpine
+            steps:
+                - uses: actions/checkout@v2
+                - name: Install build dependencies
+                  run: |
+                    apk add --update bash openssl git
+                    mix local.hex --force && mix local.rebar --force
+                - name: Install elixir dependencies
+                  run: mix deps.get
+                - name: Run CI Tests
+                  env:
+                    MIX_ENV: test
+                  run: mix ci
